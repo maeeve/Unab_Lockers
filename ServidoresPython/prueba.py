@@ -84,7 +84,7 @@ def administradors():
                     imprimir3="-----------------------------------------------------------------------------------------------------------------------------------------------------"
                      
                     return  render_template("disponibilidad.html",imprimir1=imprimir1,imprimir2=imprimir2,imprimir3=imprimir3)     
-            return  render_template("disponibilidad.html",imprimir= "no existe dicho locker o usuario registrado")                        
+            return  render_template("disponibilidad.html",imprimir1="------",imprimir2="_______________",imprimir3= "no existe dicho locker o usuario registrado")                        
         if request.form['submit'] == "vaciar":
             for i in range(1,60):
                 if Lockers.query.get(i).ocupante==request.form["num"] or str(Lockers.query.get(i).nLocker)==request.form["num"]: 
@@ -92,7 +92,11 @@ def administradors():
                     Lockers.query.get(i).ocupante="estudiante {}".format(i)
                     Lockers.query.get(i).tiempoOcupado=0
                     db.session.commit()
-            return  render_template("disponibilidad.html",imprimir1="__________________________",imprimir2=" ",imprimir3="-----------------------------" )                     
+                    imprimir1= "______________________________________________________________________________________________________________________________________________________"
+                    imprimir2="   ||   locker:"+str(i) + "   ||   ocupado: " + str(Lockers.query.get(i).ocupado) + "   ||   usuario:" + str(Lockers.query.get(i).ocupante) + "   ||   tiempo: " + str(Lockers.query.get(i).tiempoOcupado) + "   ||   "
+                    imprimir3="-----------------------------------------------------------------------------------------------------------------------------------------------------"
+                    return  render_template("disponibilidad.html",imprimir1=imprimir1,imprimir2=imprimir2,imprimir3=imprimir3)                     
+            return  render_template("disponibilidad.html",imprimir1="------",imprimir2="_______________",imprimir3= "no existe dicho locker o usuario registrado")
         elif request.form['submit'] == 'multar': 
             for i in range(1,60):
                 if Lockers.query.get(i).tiempoOcupado>12:
@@ -100,15 +104,16 @@ def administradors():
                     imprimir2="   ||   locker:"+str(i) + "   ||   ocupado: " + str(Lockers.query.get(i).ocupado) + "   ||   usuario:" + str(Lockers.query.get(i).ocupante) + "   ||   tiempo: " + str(Lockers.query.get(i).tiempoOcupado) + "   ||   "
                     imprimir3="-----------------------------------------------------------------------------------------------------------------------------------------------------"
                      
-                    return  render_template("disponibilidad.html",imprimir1=imprimir1,imprimir2=imprimir2,imprimir3=imprimir3)   
+                    return  render_template("disponibilidad.html",imprimir1=imprimir1,imprimir2=imprimir2,imprimir3=imprimir3)
+            return  render_template("disponibilidad.html",imprimir1="------",imprimir2="_______________",imprimir3= "no existe dicho locker o usuario registrado")           
     return  render_template("disponibilidad.html",imprimir1="__________________________",imprimir2="   ",imprimir3="-----------------------------" )                               
 
 # @app.route("/insert/default")
 # def insert_default():
 #     for i in range(1,60):
 #      new_post=Lockers(nLocker=i , ocupado=False,tiempoOcupado=0,ocupante="estudiante: {}".format(i))
-#      db.session.add(new_post)
-#      db.session.commit()
+#      db.Lockers.add(new_post)
+#      db.Lockers.commit()
 #     return "the deafault post was created"
 
 # @app.route("/signup",methods=["GET","POST"])
