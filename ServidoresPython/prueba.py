@@ -89,7 +89,7 @@ def administradors():
             for i in range(1,60):
                 if Lockers.query.get(i).ocupante==request.form["num"] or str(Lockers.query.get(i).nLocker)==request.form["num"]: 
                     Lockers.query.get(i).ocupado=False 
-                    Lockers.query.get(i).ocupante="estudiante"
+                    Lockers.query.get(i).ocupante="estudiante {}".format(i)
                     Lockers.query.get(i).tiempoOcupado=0
                     db.session.commit()
             return  render_template("disponibilidad.html",imprimir1="__________________________",imprimir2=" ",imprimir3="-----------------------------" )                     
